@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Interface</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="chatbox">
+        <div id="messages" style="overflow-y: auto; flex-grow: 1;">
+            <!-- Messages will be displayed here -->
+        </div>
+        <div class="form-container" id="user-info-form">
+            <form onsubmit="saveUserInfo(event)" class="flex-container">
+                <input type="text" name="name" class="input-field" placeholder="Enter your name" required>
+                <input type="text" name="phone" class="input-field" placeholder="Enter your phone number" required>
+                <button type="submit" class="submit-button">Submit</button>
+            </form>
+        </div>
+        <div class="form-container" id="chat-form" style="display: none;">
+            <form onsubmit="sendMessage(event)" class="flex-container">
+                <input type="text" name="query" class="input-field" placeholder="Type your message..." autofocus>
+                <button type="submit" class="submit-button">Send</button>
+            </form>
+        </div>
+        <div class="form-container" style="text-align: center;">
+            <form action="/clear-history" method="post">
+                <button type="submit" class="clear-button">Clear Chat History</button>
+            </form>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+</body>
+</html>
