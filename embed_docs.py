@@ -1,5 +1,6 @@
 from openai import OpenAI
 from pinecone import Pinecone
+import json
 
 # Read the document
 with open('hospital_services.txt', 'r') as file:
@@ -10,9 +11,16 @@ segments = document_text.split('\n\n')  # Assuming paragraphs are separated by d
 print(f"Type: {type(segments)}")
 print(f"length: {len(segments)}")
 
+with open('apikeys.json') as config_file:
+    config = json.load(config_file)
+
+
+openai_api_key = config['openai_key']
+pinecone_api_key= config['pinecone_key']
+
 # Ensure the segments list contains only non-empty strings
 segments = [segment for segment in segments if segment.strip()]
-client = OpenAI(api_key="sk-proj-zHDvcO8W8yQIyqGBri5vT3BlbkFJ90kqaOxHlBJbFM8tXfm7")
+client = OpenAI(api_key=openai_api_key)
 response = client.embeddings.create(
     model="text-embedding-ada-002",
     input=segments
@@ -30,7 +38,7 @@ embeddings = [embedding.embedding for embedding in response.data]
 
 
 pc = Pinecone(
-        api_key="305eba2c-b5fc-4963-bd19-30e0bb4f06c3"
+        api_key=pinecone_api_key
     )
 index_name = 'chatbot'
 embedding_dim = len(embeddings[0])
